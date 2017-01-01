@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Routing;
 using AspNetCoreExample.Services;
 using AspNetCoreExample.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace AspNetCoreExample
 {
@@ -39,6 +40,8 @@ namespace AspNetCoreExample
             services.AddDbContext<RestaurantDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
             );
+            services.AddIdentity<User, IdentityRole>()
+                    .AddEntityFrameworkStores<RestaurantDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +70,7 @@ namespace AspNetCoreExample
             }
 
             app.UseFileServer();
+            app.UseIdentity();
             app.UseMvc(ConfigureRoutes);
             app.Run(ctx => ctx.Response.WriteAsync("Catch all Not found"));
         }
