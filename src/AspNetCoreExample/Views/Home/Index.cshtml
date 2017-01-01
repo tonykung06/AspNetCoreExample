@@ -1,0 +1,23 @@
+﻿@using AspNetCoreExample.Controllers
+@model AspNetCoreExample.ViewModels.HomePageViewModel
+
+<html>
+<head>
+    <title>ASP.NET Core MVC example app</title>
+</head>
+<body>
+    <h1>@Model.CurrentMessage</h1>
+    <table>
+        @foreach (var restaurant in Model.Restaurants)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("View", "Details", new { id = @restaurant.Id })
+                </td>
+                <td>@restaurant.Name</td>
+            </tr>
+        }
+    </table>
+    @Html.ActionLink("Create New Restaurant", nameof(HomeController.Create))
+</body>
+</html>

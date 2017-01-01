@@ -1,0 +1,12 @@
+﻿@using AspNetCoreExample.Controllers
+@model AspNetCoreExample.Entities.Restaurant
+
+<h1>@Model.Name</h1>
+
+<div>
+    Id: @Model.Id
+</div>
+<div>
+    Cuisine: @Model.Cuisine
+</div>
+@Html.ActionLink("Home", nameof(HomeController.Index))
