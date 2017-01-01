@@ -10,6 +10,7 @@ namespace AspNetCoreExample.Services
         IEnumerable<Restaurant> GetAll();
         Restaurant Get(int id);
         Restaurant Add(Restaurant newRestaurant);
+        void Commit();
     }
 
     public class SqlRestaurantData : IRestaurantData
@@ -25,8 +26,13 @@ namespace AspNetCoreExample.Services
         {
             _dbContext.Add(newRestaurant);
             //if we want to batch operations, dont call savechanges here
-            _dbContext.SaveChanges();
+            //_dbContext.SaveChanges();
             return newRestaurant;//the new id is populated by EF
+        }
+
+        public void Commit()
+        {
+            _dbContext.SaveChanges();
         }
 
         public Restaurant Get(int id)
@@ -67,6 +73,11 @@ namespace AspNetCoreExample.Services
             newRestaurant.Id = _restaurants.Max(r => r.Id) + 1;
             _restaurants.Add(newRestaurant);
             return newRestaurant;
+        }
+
+        public void Commit()
+        {
+            //noop
         }
 
         //non-thread-safe

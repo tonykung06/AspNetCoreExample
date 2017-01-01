@@ -62,13 +62,13 @@ namespace AspNetCoreExample
                 //});
                 app.UseExceptionHandler(new ExceptionHandlerOptions
                 {
-                    ExceptionHandler = async context => context.Response.WriteAsync("Opps!")
+                    ExceptionHandler = async context => await context.Response.WriteAsync("Opps!")
                 });
             }
 
             app.UseFileServer();
             app.UseMvc(ConfigureRoutes);
-            app.Run(ctx => ctx.Response.WriteAsync("Not found"));
+            app.Run(ctx => ctx.Response.WriteAsync("Catch all Not found"));
         }
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)

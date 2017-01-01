@@ -1,23 +1,19 @@
 ﻿@using AspNetCoreExample.Controllers
 @model AspNetCoreExample.ViewModels.HomePageViewModel
 
-@{ 
+@{
     ViewBag.Title = "Home";
 }
 
 <h1>Welcome!</h1>
-<table>
-    @foreach (var restaurant in Model.Restaurants)
-    {
-        <tr>
-            <td>
-                @Html.ActionLink("View", "Details", new { id = @restaurant.Id })
-            </td>
-            <td>@restaurant.Name</td>
-        </tr>
-    }
-</table>
-@Html.ActionLink("Create New Restaurant", nameof(HomeController.Create))
+@foreach (var restaurant in Model.Restaurants)
+{
+    @Html.Partial("_RestaurantInfo", restaurant);
+}
+
+<div>
+    <a asp-controller="Home" asp-action="@nameof(HomeController.Create)">Create New Restaurant</a>
+</div>
 
 @section footer {
     <h3>@Model.CurrentMessage</h3>

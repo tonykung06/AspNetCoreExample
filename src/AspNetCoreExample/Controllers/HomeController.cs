@@ -54,7 +54,39 @@ namespace AspNetCoreExample.Controllers
             newRestaurant.Cuisine = model.Cuisine;
             newRestaurant.Name = model.Name;
             newRestaurant = _restaurantData.Add(newRestaurant);
+            _restaurantData.Commit();
             return RedirectToAction(nameof(Details), new { id = newRestaurant.Id });
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var model = _restaurantData.Get(id);
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, RestaurantEditViewModel model)
+        {
+            var restaurant = _restaurantData.Get(id);
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(restaurant);
+            }
+
+            restaurant.Cuisine = model.Cuisine;
+            restaurant.Name = model.Name;
+            _restaurantData.Commit();
+            return RedirectToAction(nameof(Details), new { id = restaurant.Id });
         }
     }
 }
