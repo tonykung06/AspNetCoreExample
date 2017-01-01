@@ -28,6 +28,7 @@ namespace AspNetCoreExample
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton<IGreeter, Greeter>();
         }
@@ -45,11 +46,20 @@ namespace AspNetCoreExample
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.Run(async (context) =>
+            else
             {
-                await context.Response.WriteAsync(greeter.GetGreeting());
-            });
+                //app.UseExceptionHandler(new ExceptionHandlerOptions
+                //{
+                //    ExceptionHandlingPath = "/error"
+                //});
+                app.UseExceptionHandler(new ExceptionHandlerOptions
+                {
+                    ExceptionHandler = async context => context.Response.WriteAsync("Opps!")
+                });
+            }
+
+            app.UseFileServer();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
