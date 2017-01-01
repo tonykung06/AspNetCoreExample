@@ -1,8 +1,11 @@
 ﻿@using AspNetCoreExample.Controllers
 @model AspNetCoreExample.ViewModels.HomePageViewModel
 
+@{ 
+    ViewBag.Title = "Home";
+}
+
 <h1>Welcome!</h1>
-<h3>@Model.CurrentMessage</h3>
 <table>
     @foreach (var restaurant in Model.Restaurants)
     {
@@ -15,3 +18,7 @@
     }
 </table>
 @Html.ActionLink("Create New Restaurant", nameof(HomeController.Create))
+
+@section footer {
+    <h3>@Model.CurrentMessage</h3>
+}
