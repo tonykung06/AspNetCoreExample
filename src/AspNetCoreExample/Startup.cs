@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Routing;
 using AspNetCoreExample.Services;
+using AspNetCoreExample.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreExample
 {
@@ -33,7 +35,10 @@ namespace AspNetCoreExample
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddSingleton<IGreeter, Greeter>();
-            services.AddScoped<IRestaurantData, InMemoryRestaurantData>();
+            services.AddScoped<IRestaurantData, SqlRestaurantData>();
+            services.AddDbContext<RestaurantDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,6 @@
-﻿namespace AspNetCoreExample.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AspNetCoreExample.Entities
 {
     public enum CuisineType
     {
@@ -11,6 +13,8 @@
     public class Restaurant
     {
         public int Id { get; set; }
+
+        [Required, MaxLength(80)]
         public string Name { get; set; }
         public CuisineType Cuisine { get; set; }
     }

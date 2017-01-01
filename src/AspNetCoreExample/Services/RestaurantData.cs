@@ -12,6 +12,34 @@ namespace AspNetCoreExample.Services
         Restaurant Add(Restaurant newRestaurant);
     }
 
+    public class SqlRestaurantData : IRestaurantData
+    {
+        private RestaurantDbContext _dbContext;
+
+        public SqlRestaurantData(RestaurantDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public Restaurant Add(Restaurant newRestaurant)
+        {
+            _dbContext.Add(newRestaurant);
+            //if we want to batch operations, dont call savechanges here
+            _dbContext.SaveChanges();
+            return newRestaurant;//the new id is populated by EF
+        }
+
+        public Restaurant Get(int id)
+        {
+            return _dbContext.Restaurants.FirstOrDefault(r => r.Id == id);
+        }
+
+        public IEnumerable<Restaurant> GetAll()
+        {
+            return _dbContext.Restaurants;
+        }
+    }
+
     public class InMemoryRestaurantData : IRestaurantData
     {
         static InMemoryRestaurantData()
