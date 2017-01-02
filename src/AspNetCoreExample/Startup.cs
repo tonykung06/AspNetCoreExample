@@ -70,6 +70,7 @@ namespace AspNetCoreExample
             }
 
             app.UseFileServer();
+            app.UseNodeModules(env.ContentRootPath);
             app.UseIdentity();
             app.UseMvc(ConfigureRoutes);
             app.Run(ctx => ctx.Response.WriteAsync("Catch all Not found"));
