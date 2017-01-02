@@ -37,8 +37,11 @@ namespace AspNetCoreExample
             services.AddSingleton(Configuration);
             services.AddSingleton<IGreeter, Greeter>();
             services.AddScoped<IRestaurantData, SqlRestaurantData>();
+            //services.AddDbContext<RestaurantDbContext>(
+            //    options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
+            //);
             services.AddDbContext<RestaurantDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
+                options => options.UseMySql(Configuration.GetConnectionString("MySqlConnection"))
             );
             services.AddIdentity<User, IdentityRole>()
                     .AddEntityFrameworkStores<RestaurantDbContext>();
